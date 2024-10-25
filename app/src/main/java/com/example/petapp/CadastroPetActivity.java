@@ -13,11 +13,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CadastroPetActivity extends AppCompatActivity {
 
     ArrayList<Pet> listaDePet;
     RepositorioPet repositorioPet;
+    RepositorioLog repositorioLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,9 @@ public class CadastroPetActivity extends AppCompatActivity {
         Log.i("Pet","Cadastro carregado com sucesso");
 
         repositorioPet = new RepositorioPet(this);
+        repositorioLog = new RepositorioLog(this);
+
+
 
     }
 
@@ -49,6 +54,16 @@ public class CadastroPetActivity extends AppCompatActivity {
             pet.nome = nome;
             pet.idade = Integer.parseInt(idade);
             repositorioPet.adcionarPet(pet);
+
+            LOG log = new LOG();
+            log.nome= DadosCompartilhados.usuarioLogado;
+            log.dataOperacao= new Date().toString();
+            log.operacao="cadastro pet";
+            repositorioLog.adcionarLog(log);
+
+
+
+
             Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
             return;
         }
