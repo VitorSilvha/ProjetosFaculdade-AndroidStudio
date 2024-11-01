@@ -12,9 +12,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListagemPetActivity extends AppCompatActivity {
     ArrayList<Pet> listapet ; // criei a variavel
+    RepositorioPet repositorioPet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class ListagemPetActivity extends AppCompatActivity {
                 (ArrayList<Pet>) getIntent()
                         .getSerializableExtra("lista_pet");
         Log.i("pet", "Carregado Listagem Pet com sucesso");
+        repositorioPet = new RepositorioPet(this);
 
         // listando os dados no LogCat
         for(Pet pet : DadosCompartilhados.lista){
@@ -34,11 +37,12 @@ public class ListagemPetActivity extends AppCompatActivity {
         }
 
         ListView listView = findViewById(R.id.listviewpet);
+        List<Pet> listaDB = repositorioPet.listarPet();
         String[] dados =
-                new String[DadosCompartilhados.lista.size()];
+                new String[listaDB.size()];
         // passando da lista para o vetor.
-        for(int i=0; i < DadosCompartilhados.lista.size();i++){
-            Pet pet = DadosCompartilhados.lista.get(i);
+        for(int i=0; i < listaDB.size();i++){
+            Pet pet = listaDB.get(i);
             dados[i] = pet.nome + " - "  +pet.idade;
         }
         ArrayAdapter<String> adapter =
