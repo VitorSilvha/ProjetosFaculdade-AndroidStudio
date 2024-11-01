@@ -52,7 +52,7 @@ public class RepositorioPet extends SQLiteOpenHelper {
         cursor.close();
         return lista;
     }
-    
+
 
 
     @Override
